@@ -30,7 +30,7 @@ Before setting up the project, ensure you have the following installed:
 1. **Clone the Repository:**
 
     ```sh
-    git clone https://github.com/yourusername/solana-trading-bot.git
+    git clone https://github.com/mukul013/solana-bot.git
     cd solana-trading-bot
     ```
 

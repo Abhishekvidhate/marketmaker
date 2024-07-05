@@ -42,19 +42,13 @@ Before setting up the project, ensure you have the following installed:
 
 3. **Configure Environment Variables:**
 
-    Create a `.env` file in the root directory of the project and add your Helius API credentials:
+    Create a `.env` file in the root directory of the project and add your Helius API credentials (https://www.helius.dev/):
 
     ```env
     HELIUS_API_KEY=your_helius_api_key
     ```
-
-4. **Build the Project:**
-
-    ```sh
-    npm run build
-    ```
-
-5. **Run the Project:**
+    
+4. **Run the Project:**
 
     ```sh
     npm run start
@@ -66,7 +60,7 @@ Once the bot is running, it will automatically:
 2. Find holders who have only that token as their balance.
 3. Continuously refresh the holders list.
 4. Track each holder's SOL balance.
-5. Execute buy and sell orders based on the detected changes in SOL balance. (NEED TO DO)
+5. Execute buy and sell orders based on the detected changes in SOL balance. (NEED TO BE DONE YET)
 
 ## Contributing
 

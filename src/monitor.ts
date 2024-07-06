@@ -1,8 +1,10 @@
+import { swap } from "./swap";
 import {getSolanaBalance,getTokenBalance} from "./utils"
-require("dotenv").config();
-const apiKey = process.env.HELIUS_API_KEY;
+import 'dotenv/config';
 
-export async function monitorWalletsForSolana(walletAddresses: string[], checkInterval = 10000) {
+const solAddress = process.env.SOL_ADDRESS ;
+
+export async function monitorWalletsForSolanaPurchase(walletAddresses: string[],tokenAddress:string, checkInterval = 10000) {
     const initialBalances: { [key: string]: { sol: number; token: number } } = {};
 
     for (const wallet of walletAddresses) {
@@ -12,32 +14,46 @@ export async function monitorWalletsForSolana(walletAddresses: string[], checkIn
         };
     }
 
+    console.log("Now we monitor wallets if they add SOL every 10 sec.")
+
     setInterval(async () => {
         for (const wallet of walletAddresses) {
             const currentBalance = await getSolanaBalance(wallet);
-            if (currentBalance > initialBalances[wallet].sol) {
+            console.log(`Current Balance = ${currentBalance/1000000000} & Initial Balance = ${initialBalances[wallet].sol/1000000000}`)
+            if (currentBalance > initialBalances[wallet].sol ) {
                 console.log(`SOL added to wallet ${wallet}. Initiating token purchase.`);
-                //WE BUY THE TOKEN HERE 
-                monitorTokenPurchase(wallet, initialBalances[wallet].token);
+                //WE BUY THE TOKEN HERE
+                const amountToBuy = (currentBalance-initialBalances[wallet].sol)/1000000000 ;
+                const successSwap = await swap(amountToBuy,solAddress,tokenAddress);
+
+                if(successSwap){
+                   monitorWalletsForTokenPurchase(wallet,tokenAddress,initialBalances[wallet].token);
+                }else{
+                    console.log("Token purchase failed")
+                }
+
+                
             }
 
             initialBalances[wallet].sol = currentBalance;
         }
-    }, checkInterval);
+    },checkInterval);
 }
 
-export async function monitorTokenPurchase(walletAddress: string, initialTokenBalance: number) {
-    const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
+export async function monitorWalletsForTokenPurchase(walletAddress: string,tokenAddress:string, initialTokenBalance: number) {
     const startTime = Date.now();
     const checkInterval = 10000;
+    let currentTokenBalance: number;
 
     const checkForTokenPurchase = async () => {
-        const currentTokenBalance = await getTokenBalance(walletAddress);
+        currentTokenBalance = await getTokenBalance(walletAddress);
         console.log("initialTokenBalance", initialTokenBalance)
         console.log("currentTokenBalance", currentTokenBalance)
         if (currentTokenBalance > initialTokenBalance) {
             console.log(`Token purchased by ${walletAddress}. Selling token.`);
-            // WE SELL OUR TOKEN HERE 
+            // WE SELL OUR TOKEN HERE
+            const amountToBuy : number = currentTokenBalance - initialTokenBalance ;
+            swap(amountToBuy,tokenAddress,solAddress)
             return true;
         }
         return false;
@@ -50,6 +66,8 @@ export async function monitorTokenPurchase(walletAddress: string, initialTokenBa
             if (!tokenPurchased) {
                 console.log(`Token not purchased by ${walletAddress} within 1 hour. Selling token.`);
                 // WE SELL OUR TOKEN BECAUSE OF TIME LIMIT REACHED.
+                const amountToBuy : number = currentTokenBalance - initialTokenBalance ;
+                swap(amountToBuy,tokenAddress,solAddress)
             }
             clearInterval(intervalId);
         }

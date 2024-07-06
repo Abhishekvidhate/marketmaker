@@ -1,6 +1,6 @@
 import * as readline from 'readline';
-import {getExclusiveTokenHolders,readExclusiveTokenHolders} from "./utils"
-import {monitorWalletsForSolana} from "./monitor"
+import {getExclusiveTokenHolders,readExclusiveTokenHolders , getTokenBalance} from "./utils"
+import {monitorWalletsForSolanaPurchase} from "./monitor"
 
 async function startProcess() {
   const rl = readline.createInterface({
@@ -22,14 +22,14 @@ async function startProcess() {
     await getExclusiveTokenHolders(tokenAddress);
 
     const tokenHolders = readExclusiveTokenHolders();
-    monitorWalletsForSolana(tokenHolders);
+    console.log("Token Holders" , tokenHolders)
+    monitorWalletsForSolanaPurchase(tokenHolders , tokenAddress);
 
     setInterval(async () => {
       await getExclusiveTokenHolders(tokenAddress);
       const updatedTokenHolders = readExclusiveTokenHolders();
-      monitorWalletsForSolana(updatedTokenHolders);
+      monitorWalletsForSolanaPurchase(updatedTokenHolders,tokenAddress);
     }, 3600000);
-
   } catch (error) {
     console.error('Error in startProcess:', error);
   }

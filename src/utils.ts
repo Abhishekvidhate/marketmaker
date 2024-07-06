@@ -1,7 +1,8 @@
 import { GetTokenAccountsParams } from "./types";
 import fs from "fs";
 import path from "path"
-require("dotenv").config();
+import 'dotenv/config';
+
 const apiKey = process.env.HELIUS_API_KEY;
 
 
@@ -60,13 +61,12 @@ export async function getExclusiveTokenHolders(tokenMintAddress: string) {
     try {
       const allOwnersData = JSON.parse(fs.readFileSync("tokenHolders.json", "utf8"));
       const allOwnersDataSliced = allOwnersData.slice(0, 999); //sliced data because of API Limitation in free account
-  
       const exclusiveHolders: string[] = [];
       const now = new Date().getTime();
   
       await Promise.all(
         allOwnersDataSliced.map(async (holder) => {
-          const ownerResponse = await fetch(url, {
+          const ownerResponse = await fetch( url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -174,7 +174,7 @@ export async function getTokenBalance(walletAddress: string): Promise<number> {
 }
 
 export function readExclusiveTokenHolders(): string[] {
-    const filePath = path.join(__dirname, 'exclusiveHolders.json');
+    const filePath = path.join(__dirname, '..' , 'exclusiveHolders.json');
     if (fs.existsSync(filePath)) {
         const data = fs.readFileSync(filePath, 'utf8');
         return JSON.parse(data);

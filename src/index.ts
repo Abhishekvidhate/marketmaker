@@ -1,5 +1,5 @@
 import * as readline from 'readline';
-import {getExclusiveTokenHolders,readExclusiveTokenHolders , getTokenBalance} from "./utils"
+import {getExclusiveTokenHolders,readExclusiveTokenHolders} from "./utils"
 import {monitorWalletsForSolanaPurchase} from "./monitor"
 
 async function startProcess() {
@@ -36,6 +36,5 @@ async function startProcess() {
 
 }
 
+
 startProcess();
-
-

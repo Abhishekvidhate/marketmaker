@@ -11,7 +11,7 @@ const walletPrivateKey = process.env.WALLET_PRIVATE_KEY || 'YOUR_WALLET_PRIVATE_
  * Performs a token swap on the Raydium protocol.
  * Depending on the configuration, it can execute the swap or simulate it.
  */
-export const swap = async (tokenAAmount , tokenAAddress , tokenBAddress) : Promise<boolean> => {
+export const swap = async (tokenAAmount:number , tokenAAddress:string , tokenBAddress:string) => {
   /**
    * The RaydiumSwap instance for handling swaps.
    */
@@ -31,7 +31,6 @@ export const swap = async (tokenAAmount , tokenAAddress , tokenBAddress) : Promi
   const poolInfo = raydiumSwap.findPoolInfoForTokens(tokenAAddress, tokenBAddress);
   if (!poolInfo) {
     console.error('Pool info not found');
-    return false;
   } else {
     console.log('Found pool info');
   }
@@ -60,7 +59,6 @@ export const swap = async (tokenAAmount , tokenAAddress , tokenBAddress) : Promi
       : await raydiumSwap.sendLegacyTransaction(tx as Transaction, swapConfig.maxRetries);
         
     console.log(`https://solscan.io/tx/${txid}`);
-    return true
 
   } else {
     /**
@@ -71,6 +69,5 @@ export const swap = async (tokenAAmount , tokenAAddress , tokenBAddress) : Promi
       : await raydiumSwap.simulateLegacyTransaction(tx as Transaction);
 
     console.log(simRes);
-    return true
   }
 };

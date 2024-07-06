@@ -2,19 +2,18 @@ import { swap } from "./swap";
 import {getSolanaBalance,getTokenBalance} from "./utils"
 import 'dotenv/config';
 
-const solAddress = process.env.SOL_ADDRESS ;
+const solAddress = process.env.SOL_ADDRESS || "So11111111111111111111111111111111111111112" ;
 
-export async function monitorWalletsForSolanaPurchase(walletAddresses: string[],tokenAddress:string, checkInterval = 10000) {
-    const initialBalances: { [key: string]: { sol: number; token: number } } = {};
+export async function monitorWalletsForSolanaPurchase(walletAddresses: string[],tokenAddress:string, checkInterval = 2000) {
+    const initialBalances: { [key: string]: { sol: number } } = {};
 
     for (const wallet of walletAddresses) {
         initialBalances[wallet] = {
             sol: await getSolanaBalance(wallet),
-            token: await getTokenBalance(wallet),
         };
     }
 
-    console.log("Now we monitor wallets if they add SOL every 10 sec.")
+    console.log("Now we monitor wallets if they add SOL every 2 sec.")
 
     setInterval(async () => {
         for (const wallet of walletAddresses) {
@@ -24,17 +23,10 @@ export async function monitorWalletsForSolanaPurchase(walletAddresses: string[],
                 console.log(`SOL added to wallet ${wallet}. Initiating token purchase.`);
                 //WE BUY THE TOKEN HERE
                 const amountToBuy = (currentBalance-initialBalances[wallet].sol)/1000000000 ;
-                const successSwap = await swap(amountToBuy,solAddress,tokenAddress);
-
-                if(successSwap){
-                   monitorWalletsForTokenPurchase(wallet,tokenAddress,initialBalances[wallet].token);
-                }else{
-                    console.log("Token purchase failed")
-                }
-
-                
+                swap(amountToBuy,solAddress,tokenAddress);
+                const initialTokenBalance = await getTokenBalance(wallet)
+                monitorWalletsForTokenPurchase(wallet,tokenAddress,initialTokenBalance);
             }
-
             initialBalances[wallet].sol = currentBalance;
         }
     },checkInterval);
@@ -42,7 +34,7 @@ export async function monitorWalletsForSolanaPurchase(walletAddresses: string[],
 
 export async function monitorWalletsForTokenPurchase(walletAddress: string,tokenAddress:string, initialTokenBalance: number) {
     const startTime = Date.now();
-    const checkInterval = 10000;
+    const checkInterval = 2000;
     let currentTokenBalance: number;
 
     const checkForTokenPurchase = async () => {

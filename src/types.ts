@@ -3,4 +3,3 @@ export interface GetTokenAccountsParams {
     mint: string;
     cursor?: string;
 }
-  

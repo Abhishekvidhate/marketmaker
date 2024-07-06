@@ -35,7 +35,7 @@ export async function getTokenAccounts(tokenMintAddress:string) {
       }),
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
 
     if (!data.result || data.result.token_accounts.length === 0) {
       console.log("Token holders saved to the file.");
@@ -85,7 +85,7 @@ export async function getExclusiveTokenHolders(tokenMintAddress: string) {
             }),
           });
   
-          const ownerData = await ownerResponse.json();
+          const ownerData = await ownerResponse.json() as any;
   
           if (ownerData.result) {
             const ownerTokenAccounts = ownerData.result.value;
@@ -126,7 +126,7 @@ export async function getSolanaBalance(walletAddress: string): Promise<number> {
       }),
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
     if (data.result) {
       return data.result.value;
     } else {
@@ -161,7 +161,7 @@ export async function getTokenBalance(walletAddress: string): Promise<number> {
       }),
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
     if (data.result) {
       return data.result.value[0].account.data.parsed.info.tokenAmount.uiAmount;
     } else {

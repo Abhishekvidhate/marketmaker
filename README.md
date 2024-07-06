@@ -26,6 +26,7 @@ Before setting up the project, ensure you have the following installed:
 
 - [Node.js](https://nodejs.org/en/download/) (v14 or higher)
 - [npm](https://www.npmjs.com/get-npm)
+- [yarn](https://yarnpkg.com/)
 
 ## Setup Instructions
 
@@ -39,9 +40,13 @@ Before setting up the project, ensure you have the following installed:
 2. **Install Dependencies:**
 
     ```sh
-    npm install
+    yarn
     ```
-
+    OR
+    ```sh
+    npm i
+    ```
+    
 3. **Configure Environment Variables:**
 
     Create a `.env` file in the root directory of the project and add your Helius API credentials (https://www.helius.dev/):
@@ -62,7 +67,11 @@ Before setting up the project, ensure you have the following installed:
 4. **Run the Project:**
 
     ```sh
-    npm run start
+    yarn start
+    ```
+    OR
+    ```sh
+    npm start
     ```
 
 Once the bot is running, it will automatically:

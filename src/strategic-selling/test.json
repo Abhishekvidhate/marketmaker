@@ -1,0 +1,20 @@
+{
+  "success": true,
+  "message": "Callbacks for current user",
+  "result": [
+    {
+      "_id": "66b0f7a739be5a366f6e62d8",
+      "network": "mainnet-beta",
+      "addresses": ["4Cnk9EPnW5ixfLZatCPJjDB1PUtcRpVVgTQukm9epump"],
+      "events": ["ANY"],
+      "callback_url": "https://p8gmdtms-3001.inc1.devtunnels.ms/webhook/",
+      "api_key": "66ae8025353ef17bccb3203f",
+      "type": "CALLBACK",
+      "encoding": "PARSED",
+      "active": true,
+      "created_at": "2024-08-05T16:02:47.810Z",
+      "updated_at": "2024-08-05T16:02:47.810Z",
+      "__v": 0
+    }
+  ]
+}

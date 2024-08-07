@@ -1,0 +1,302 @@
+[
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:25:56 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 53891.425188,
+    "signature": "2x1EeFfxyyNsDBjDAF24wop5qv7JAF3Fu27mn3ibSFcjUWmhXdkENvrigp9AkN7v2ah37TFNMqwcv9jvdsZGMb8V",
+    "symbol": "WALZ ",
+    "feePayer": "Dnsb87whu6nm5utC1CePSDfopTchq7ViyHW8w8ee47Hx"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:25:57 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 8593.123789,
+    "signature": "2t9vZKw8rUbCDZjUrnHJjfPx1AUMzonaARXnjbUcBE6wMZQPdELnFdpPU4sEYNBkaKFHfVVVPUX3ALcq24DwxGYq",
+    "symbol": "WALZ ",
+    "feePayer": "EuA5Suxg41Rby3aZubuhtqbHheHG3PLvDvM8tUwWQdCM"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:25:59 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 1184.495136,
+    "signature": "2e1Gm1QEq22AGZeF4CUdGR6hQujD1zSd4RwKYWxyzRxxkZJXLNDhFWQBDnYySrFwuB2Xh7F9Uvgzpc8PfWnQt9Ek",
+    "symbol": "WALZ ",
+    "feePayer": "BEsyMgopcsuEt19Wfirj2dhoAL1FjCTQNxVXvhcd3Kc9"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:06 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 3520.031279,
+    "signature": "5GG6GXgMPwnHe8sUTTsADEisERByXwnfmdpsSCbUj12QVgsQ4sGB72bWruvn67AATTDruTPYeXPCEfwTAoN81VRX",
+    "symbol": "WALZ ",
+    "feePayer": "H9odhJSiohXKSkcaeFa7AEqva8vvYwDbyXG3mLovSuE6"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:06 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 165005.081293,
+    "signature": "3BGqs6ZTJsNvJyheD2MSKX9DrZiSFwfaBPDzice2EdZgxU5njXdxPvUkYJoDZKMoZdjzWCk7oKsp94qnfTuMsXMt",
+    "symbol": "WALZ ",
+    "feePayer": "99Mp8L7qLP9jcgR9jkQxiTXUMkMpiUxVqjSXaRehb72s"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:07 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 46499.731826,
+    "signature": "3Rjkec5CBDkg5yscTJ34WbQyAGz6gadE6nrK1iofrRFDYYNToFkPVPxLPXyXZfKoXoAsU5EZqSxtVccVCZQVduGE",
+    "symbol": "WALZ ",
+    "feePayer": "BxEhUQos8ARzHHrNPyS8fuKyGnFwtgJBtFMFoRvZnzXo"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:11 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 283701.918397,
+    "signature": "3oSZPyKPgofzTV3TPcXVc8p2itZgTtuifFLy8MMjx3kbPb3y53Z3QuFyvi7A8nJ6eXeKacArmzvX57ddi3KTFH8d",
+    "symbol": "WALZ ",
+    "feePayer": "2AfEPd59eoi6kXbHVtN6BXqGeN69GUhiyB1iCR8dVp6C"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:12 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 318481.750216,
+    "signature": "oaP8Es2UxeQsDqXVm8nYv7jptaSV2EtsfyFbiLeu8dGN6U44QeQHSYpwHzaL2XA52qELPSF4vF5FfSRGkSaWu6T",
+    "symbol": "WALZ ",
+    "feePayer": "s91tkTQTjGpY2EBe75YmVki87VHH5Haj9vjtbLWSrQL"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:16 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 105250.117819,
+    "signature": "56cFFvnvsytwSXsGdCkQyUGaExKSqwoN3XKiecCU9oVzMePs4YkzgDskbPujxM6rcLNGL58TT8CFSpskkEDcZLkr",
+    "symbol": "WALZ ",
+    "feePayer": "GuCje3w3wSLoEGkSmqCoM9CTmHvn8Pdm7Cz8UdAFkJMs"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:16 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 9261.593847,
+    "signature": "3heoWAZCjxaKfusiWYLwcfVQbxuHoPaXRtBykpwdgAKgXM7GJq4cezFcNKEuMgRgF5S2jr3B2jAVrx6jNHcyrgv6",
+    "symbol": "WALZ ",
+    "feePayer": "BRgW8k4KM4wBiCR3evzPG3NPsQgNGCNd31VrZXhccZpW"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:17 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 106648.133061,
+    "signature": "67ERhvCpYJ377xZ4k9aXhg7tFC3h8nAATfbTz48QjVcB6o51A4ccepXg19BWVUqp9sy962bJRyxFcEUsunCmeEt5",
+    "symbol": "WALZ ",
+    "feePayer": "EEw9mC118oUdyLivFWpURjjDG9tPbZtLj7r2Jes7yjvc"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:20 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 22147.871968,
+    "signature": "3tDqddx4mxXgU3YvEFcLNYQ8s7onUvPp9ppPrDgd3wPndxD1YHWbE99LzfJnvgEPKWKGVgkWhJnEZprv8rmoxFiK",
+    "symbol": "WALZ ",
+    "feePayer": "81WQ1GyQD13dBq3N6aEjDJrc62fC2BQ17bMatJtRV1NT"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:23 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 274912.087334,
+    "signature": "KPAy8wsqKL3Cu9Pouyst4RY3r4vgyn1wZmnihizaWQccTfWopx8i1RHnGrY29d27Y2YUrtpmCd4c6iN5D19LBKJ",
+    "symbol": "WALZ ",
+    "feePayer": "7YExmpsvmcBoF4kej6Sdpyt5pbmYu4XApncnF9B9x2UZ"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:24 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 64341.077712,
+    "signature": "4T2S44LaxwjZA4mphsdw6hkqQtwXCiYrc2CLHsGjBXNSuHRySznuvzUNPvtSHhwhqUSRVRKB2GnMC3uL23ke6qro",
+    "symbol": "WALZ ",
+    "feePayer": "9HGJW2k1uj3QDb7YKe7PXx7mDo7EBpi6yUoEJUeqRS5H"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:28 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 22179.708402,
+    "signature": "2gxSdFJ9YBmZzdurihpfWMZKTSJwU1chk8uM6RVbyMdRdTYk6StEgcRmydWpEB3xqacm3PgWkanULGHqwQsb8avh",
+    "symbol": "WALZ ",
+    "feePayer": "6GNArf1CbmnNMQ7aMFU2jBChSBkBGGnTwZ75jvM9LgAW"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:28 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 22199.662627,
+    "signature": "dWfJa31LoyH9mnMQnt2MGtyfvch6JKpyipUa4ANshJhkr2N4eeUgmzFw1tJr62hWGHpEBEf8bGzbYLmKsn5XD8r",
+    "symbol": "WALZ ",
+    "feePayer": "6GNArf1CbmnNMQ7aMFU2jBChSBkBGGnTwZ75jvM9LgAW"
+  },
+  {},
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:29 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 38246.301579,
+    "signature": "3nwm5HiEVKp53Y9qWb4xMtZwawj7KwuW45k1PJvSVcCRp17W7ygBzZXynePF98kiS1DRTFTzkr3foJa7pYY7wW7g",
+    "symbol": "WALZ ",
+    "feePayer": "2mkg52d3xmoYuPCPAti4Li6YXn9bWQhnyLbowm5Ke4xx"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:33 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 9889.798919,
+    "signature": "2JSN8meEyL6SwWfQKnFjKidJwdyx8bHrmuW9LxPbAPHVAWrSw2oZKozFEMHVasQNjnSP3EEQ42zhPMSyV6X51GCv",
+    "symbol": "WALZ ",
+    "feePayer": "3mUGxxHAte6SL6siUNJ4H7PnY7GryhAeRKEYJ9ZLEgdd"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:36 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 106927.508695,
+    "signature": "GPUdZwqrZ2f1qBWFkjE5j5EZ33wYtwbm3Ki8C58s1u67weeRqzn2tVAh2i9Vpjh9GSQNkfgcjNjQGxJSqoqCxFc",
+    "symbol": "WALZ ",
+    "feePayer": "HV77XXi1W3xNGsaecTYe3oBqEfvwb2SmMTjT7AfZUh5U"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:39 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 74972.180304,
+    "signature": "61etdYD4qJiAnovGR7goKNvYpDzj53uCcgq3MYbcyUuyAS6hCuSiHw2EWTfWEwfJCMiPQnxkcrgD3BMmnCZgoQTF",
+    "symbol": "WALZ ",
+    "feePayer": "81DcEnv5Dzjc9R4aXnRYaZKZPcPeuyy2eMe8PAB8J33H"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:41 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 93286.616325,
+    "signature": "hupewfYZnzbMQTGfV4ekX1HTHdAMGtY1L6hpbVAwLy7k6p2y1ifmazrJXut4CFyodxYD7xzMPUPkXvKz6MBabdD",
+    "symbol": "WALZ ",
+    "feePayer": "J9q6nTzKeoXaeS8jkV2JemdQ36rh83Rn9t13qUyb5MUC"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:41 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 32326.905391,
+    "signature": "2MHHngDARutwP6sY8XtiFrA1gwwbcuMGASCk5S9C66qf8wM1CGoN8WgEVPRu4yeseu1aqzP1RBKwwW93LxXGSAa",
+    "symbol": "WALZ ",
+    "feePayer": "8a7sJX496omFRVgiYoTMHXwuqwTqzfqvKBk2h94paMgh"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:44 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 54839.539098,
+    "signature": "4Xx18mRo5py8J8YVdeKAkKAe7aUkNvUvTexJoDETB24gN8JGWfQfBQ9em9yKtoT5j7UbLyTEm5EaevD6mqR57eWJ",
+    "symbol": "WALZ ",
+    "feePayer": "Cm5if8yj9aj6jmv7XR4nLg5RgT9DFGYqCf2XCXhYe8UC"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:44 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 22403.373518,
+    "signature": "58hUSDK9nmBPYAmHqzz8PoBtjB8mD6Ak3an49ibYdjhZGGCskGiTcESyS6ycQkWBMK1mcoX9wPY7VusuCH8XNxFH",
+    "symbol": "WALZ ",
+    "feePayer": "HRWsGu9WfnQ4Vmw4TcqkxeG4UX6z17VbuZwf85qDn8Va"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:46 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 1072.252277,
+    "signature": "5QWMqAakc8qGaKhKhUTd1ep1uFcRGHhQDwUUcvEcvYEYvEXqquzNFoivkoG3BHyvKDT7Lsr6dj1hhKNXyFRYcRbG",
+    "symbol": "WALZ ",
+    "feePayer": "2MeZmqz8g37XQr38gosfSZfA9Rn32bmM32PSmwyVaqfQ"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:49 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 3560.338332,
+    "signature": "44R5yuoZC5SRS3zTZSU23aweY1ANBk9ehG2jKoaW3uVaTpfLBLxjFWahzwsLdiCrMtezroonFavneji1UM3qDr7m",
+    "symbol": "WALZ ",
+    "feePayer": "AKRn6iFtBQnxWkRK2xcEeTuVXftF8MLYGZDxyjwamNs7"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:54 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 38267.619617,
+    "signature": "4VN67o2iKBR1ELc9AvVj5BXEbhXoDwbbbK7LSQ2z7JZ7PkPsewq45EYMaF48TnSAcE5F5PaVM3zuAvJQ818WjoQU",
+    "symbol": "WALZ ",
+    "feePayer": "FYQ3eeMqS9HzEfF3cQ9Ci3aR1ppoMpBA3JB7eXEvzeFm"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:26:58 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 106841.777348,
+    "signature": "5LUWiBkT8C5zFy383u3MHmPQeDttrR9d97xNGEXXCTPyP9cVKArsXudmLgcsPLvQVh47FXnSyEhwXKHBLx1xzxtc",
+    "symbol": "WALZ ",
+    "feePayer": "2jfbni7qnoPkiRUCqjo9BitXDaJhdm3aoo28ajtKNGBx"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:01 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 165005.081293,
+    "signature": "45SYcVX6jRMKySoQiKdZgKHxTSkDFBzMSGytGxdy4CCAHGWWQif9oMdfZ7LmxUiB7v24PqaVzqSLHJqL2DN8pTc9",
+    "symbol": "WALZ ",
+    "feePayer": "99Mp8L7qLP9jcgR9jkQxiTXUMkMpiUxVqjSXaRehb72s"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:11 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 8444.163538,
+    "signature": "5JccuU753WhSnWWRuNYasJDACrcBz5xeMNc3nvSa7seJ8LkXTU7gXAqmnWczqGYijoq1Mq4rLBGU79qp2a9QhBhf",
+    "symbol": "WALZ ",
+    "feePayer": "2NsmQqnv6VeVsCja9D36dSKKtrixiwCmCfe1G7S5wCwA"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:13 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 10733.59327,
+    "signature": "65dLDdjMzjmcwB7SRPdNHiJkDbzZ62m5Ycq5WXMz9t8s4VS5X5cJ4RxSrhCvmX4msd5PsVeLS6AP6mFitg3iWECV",
+    "symbol": "WALZ ",
+    "feePayer": "AJ3EQED6dMa3rpcGrojfvxpSEUDx1JqyQSpAfpm4GU6W"
+  },
+  {},
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:21 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 42263.002965,
+    "signature": "5PrqfoJ9LdPg48jmKYjjcQB9yMe5RsJUq2c41RfHhe1ZJHzbjB2CWb8PhKgx8F2wBwNHmXPZpmVoonKVwoDtnFDf",
+    "symbol": "WALZ ",
+    "feePayer": "ju4hRNqk3ch64s7gyvECZbpkZHCAsAGxgUvQ4pWCbk8"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:23 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 43083.35198,
+    "signature": "28Q6BTG4XCQDnRejZ6jTjLQXQxDyS7amDtuURFnV56p3j916xNV8Q2cLnWsdwvjuHq3p3h3Zb87LpwuzYYexDhpH",
+    "symbol": "WALZ ",
+    "feePayer": "6GNArf1CbmnNMQ7aMFU2jBChSBkBGGnTwZ75jvM9LgAW"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:23 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 50862.598416,
+    "signature": "q4siFTsDfjAz7zWVvX1fak3j47eVWF5Zp55aEa2iPjeE7zHWP65J3nvKjtqvwZWMuMaFaPHRtPRmVydcN9s9oZr",
+    "symbol": "WALZ ",
+    "feePayer": "6GNArf1CbmnNMQ7aMFU2jBChSBkBGGnTwZ75jvM9LgAW"
+  },
+  {},
+  {},
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:26 PM",
+    "buyOrSell": "SELL",
+    "tokenValue": 27053.989849,
+    "signature": "61DtExMut5UgCaU383FEZTdrTd7oqRZ1UAYuHFJzPYqGTdTGMazW6P5hdo3mSH88HveywqCNSToPw39tEMBDNTGp",
+    "symbol": "WALZ ",
+    "feePayer": "ju4hRNqk3ch64s7gyvECZbpkZHCAsAGxgUvQ4pWCbk8"
+  },
+  {
+    "timestamp": "Wednesday, August 7, 2024 at 04:27:28 PM",
+    "buyOrSell": "BUY",
+    "tokenValue": 54052.540957,
+    "signature": "2unmZXVXRx159rkBdYLCo27ekJuHwkdkFh3FraQ5vkr74GbryKPwAnz3FYXh4RaehCb44GxhhsmFhc81oASBDT9o",
+    "symbol": "WALZ ",
+    "feePayer": "BoNkmunFU5XtLFWWbvbAsR4vXQ6em5HjazkP44pBbyuc"
+  }
+]

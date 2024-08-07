@@ -1,6 +1,7 @@
 import path from "path";
 import fs from 'fs';
 import { TOKEN_MINT } from "../config/strategicSellingConfig";
+import 'dotenv/config'
 
 export const convertTimestampToReadableFormat = (timestamp) => {
     const date = new Date(timestamp);
@@ -23,7 +24,7 @@ export const convertTimestampToReadableFormat = (timestamp) => {
 export const parseTransactionShyft = async (txSig) => {
   const url = `https://api.shyft.to/sol/v1/transaction/parsed?network=mainnet-beta&txn_signature=${txSig}`;
   const myHeaders = new Headers();
-  myHeaders.append("x-api-key", "rj3Zg8rx0PSWTPZt");
+  myHeaders.append("x-api-key", process.env.SHYFT_API_KEY );
 
   var requestOptions = {
     method: 'GET',

@@ -1,16 +1,18 @@
+import 'dotenv/config'
+
 var myHeadersCreateCallback = new Headers();
-myHeadersCreateCallback.append("x-api-key", "rj3Zg8rx0PSWTPZt");
+myHeadersCreateCallback.append("x-api-key", process.env.SHYFT_API_KEY);
 myHeadersCreateCallback.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
   "network": "mainnet-beta",
   "addresses": [
-    "4Cnk9EPnW5ixfLZatCPJjDB1PUtcRpVVgTQukm9epump",
+    "CTg3ZgYx79zrE1MteDVkmkcGniiFrK1hJ6yiabropump",
   ],
   "callback_url": "https://p8gmdtms-3001.inc1.devtunnels.ms/webhook/",
   "encoding" : "PARSED",
   "type": "CALLBACK",
-  "enable_raw" : true,
+  "enable_raw" : false,
   "enable_events" : true,
 });
 

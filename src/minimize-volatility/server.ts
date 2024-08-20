@@ -2,56 +2,63 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import fs from 'fs'
 import path from 'path'
+import bs58 from "bs58";
+import { getRandomNumberInRange, parseTransactionResult, parseTransactionShyft } from '../utils/controllers';
+import { BASE_AMOUNT, TOKEN_MINT ,TOKEN_SYMBOL} from '../config/minimizeVolatilityConfig';
+// import { Keypair } from '@solana/web3.js';
+import { sellToken } from '../sellToken';
+import { buyToken } from '../buyToken';
 
 const app = express();
 const port = 4786;
+// const primaryWallet = Keypair.fromSecretKey(bs58.decode(process.env.WALLET_PRIVATE_KEY || ''));
 
 app.use(bodyParser.json());
 
 app.get('/' , (req,res) => {
     res.send("Hey")
-})
+});
 
 app.post('/webhook',   
     (req, res) => {
 
-    const webhookData = req.body;
-    logTransaction(webhookData , "tarnsactions")
+        const transactions = req.body;
+
+        transactions.forEach( async (transaction) => {
+
+            logTransaction(transaction , "nero-helius")
     
-    // webhookData.forEach( ( transaction: any) => {
-    //     const currentPriceUsdc = transaction.priceUsdc;
-            
-    //     if (previousPriceUsdc !== null) {
-    //         const priceImpact = ((currentPriceUsdc - previousPriceUsdc) / previousPriceUsdc) * 100;
-    //         console.log(`Transaction ID: https://solscan.io/tx/${transaction.transactionId}`);
-    //         console.log(`Price Impact: ${priceImpact.toFixed(2)}%`);
-    //         console.log('\n')
-    //     } else {
-    //         console.log(`Transaction ID: https://solscan.io/tx/${transaction.transactionId}`);
-    //         console.log(`No previous transaction to compare for price impact.`);
-    //         console.log('\n')
-
-    //     }
-    //     previousPriceUsdc = currentPriceUsdc;
-    // });
-    //  console.log(webhookData); // Log the incoming webhook data
-     // Process the webhook data as needed (e.g., store in a database, send notifications)
-
-         webhookData.forEach( ( transaction: any) => {
-            const result = {
-                transactionId: '',
-                type: ''
-            } ;
-            console.log(`Transaction ID: https://solscan.io/tx/${transaction.signature}`);
-            console.log(`Type: ${transaction.type}`);
-            result.transactionId = `https://solscan.io/tx/${transaction.signature}`
-            result.type = `${transaction.type}`
-            logTransaction(result , "tarnsactionID")
-            console.log('\n')
+            // let parsedTransaction : any; 
+            // let result;
+    
+            // if(transaction?.type == 'SWAP' && transaction?.description){
+            //     result =  await parseTransactionDescription(transaction , TOKEN_SYMBOL); 
+            // }else{
+            //     parsedTransaction = await parseTransactionShyft(transaction?.signature);
+            //     result = parseTransactionResult(parsedTransaction?.result);
+            // }
+    
+            // if(result?.buyOrSell == 'BUY' && result?.tokenValue > BASE_AMOUNT){
+            //     //sell 50-70% of BUY AMOUNT
+            //     const randomPercentage = getRandomNumberInRange(50,70);
+            //     const tokenToSell = (randomPercentage/100)*result.tokenValue ;
+            //     console.log("SELL TOKEN" , tokenToSell)
+            //     // await sellToken(primaryWallet,false,TOKEN_MINT,false,tokenToSell)
+            // }
+    
+            // if(result?.buyOrSell == 'SELL' && result?.tokenValue > BASE_AMOUNT){
+            //     //buy 50-70% of SELL AMOUNT
+            //     const randomPercentage = getRandomNumberInRange(50,70);
+            //     const response: any = await fetch(`https://price.jup.ag/v6/price?ids=SOL&vsToken=${TOKEN_MINT}`);
+            //     const priceData = await response.json();
+            //     const tokenToBuy = ((randomPercentage/100)*result.tokenValue)/priceData?.data?.SOL?.price ;
+            //     console.log("BUY TOKEN" , tokenToBuy)
+            //     // await buyToken(primaryWallet,TOKEN_MINT,tokenToBuy,false,false)
+            // }
         })
 
      res.sendStatus(200);
-   });
+});
    
 app.listen(port, () => {
      console.log(`Server listening on port ${port}`);

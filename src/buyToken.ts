@@ -50,10 +50,9 @@ export const buyToken = async (
 
     const txid = await finalizeTransaction(swapTransaction, wallet, connection) as string;
     const latestBlockhash = await connection.getLatestBlockhash()
-
-    console.log("Waiting for confirmation... 🕒");
-   
+  
     if(waitForConfirmation){
+      console.log("Waiting for confirmation... 🕒");
       const confirmation = await connection.confirmTransaction(
         {
           signature: txid,

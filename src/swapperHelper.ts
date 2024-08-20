@@ -2,6 +2,7 @@ import { Connection, PublicKey, VersionedTransaction } from "@solana/web3.js";
 import fetch from "cross-fetch";
 import { Route, SwapResponse } from "./types";
 import { Wallet } from "@project-serum/anchor";
+import { EXECUTE_SWAP } from "./config/consts";
 
 
 export const getQuote = async (
@@ -17,7 +18,6 @@ export const getQuote = async (
   return quoteResponse;
 };
 
-
 export const getSwapTransaction = async (
   quoteResponse: Route,
   walletPublicKey: string,
@@ -30,7 +30,7 @@ export const getSwapTransaction = async (
       userPublicKey: walletPublicKey,
       wrapAndUnwrapSol: true,
       restrictIntermediateTokens: false,
-      prioritizationFeeLamports: 100000,
+      prioritizationFeeLamports: 250000,
     };
     const resp = await fetch("https://quote-api.jup.ag/v6/swap", {
       method: "POST",
@@ -51,7 +51,6 @@ export const convertToInteger = (amount: number, decimals: number) => {
   return Math.floor(amount * 10 ** decimals);
 };
 
-
 export const finalizeTransaction = async (
   swapTransaction: string,
   wallet: Wallet,
@@ -63,16 +62,22 @@ export const finalizeTransaction = async (
 
     let transaction = VersionedTransaction.deserialize(swapTransactionBuf);
 
-    // sign the transaction
-    transaction.sign([wallet.payer]);
+    if(EXECUTE_SWAP){
+      // sign the transaction
+      transaction.sign([wallet.payer]);
+      const rawTransaction = transaction.serialize();
+      const txid = await connection.sendRawTransaction(rawTransaction, {
+        skipPreflight: false,
+        // preflightCommitment: "confirmed",
+      });
 
-    const rawTransaction = transaction.serialize();
-    const txid = await connection.sendRawTransaction(rawTransaction, {
-      skipPreflight: false,
-      // preflightCommitment: "confirmed",
-    });
-
-    return txid;
+      return txid;
+    }else{
+      console.log("Simulating Transaction")
+      const simulationResult = await connection.simulateTransaction(transaction)
+      console.log("simulationResult" , simulationResult)
+    }
+ 
   } catch (error: any) {
     throw new Error(error);
   }

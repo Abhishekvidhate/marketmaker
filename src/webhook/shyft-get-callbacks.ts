@@ -1,5 +1,7 @@
+import 'dotenv/config'
+
 const myHeaders = new Headers();
-myHeaders.append("x-api-key", "rj3Zg8rx0PSWTPZt");
+myHeaders.append("x-api-key", process.env.SHYFT_API_KEY);
 
 const requestOptionsGetCallback = {
   method: 'GET',

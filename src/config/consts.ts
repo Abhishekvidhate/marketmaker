@@ -1,3 +1,4 @@
 export const SOLANA_TOKENPROGRAM_ID = 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA';
 export const SOLANA_ADDRESS = "So11111111111111111111111111111111111111112";
 export const TOKEN_ADDRESS = "AE2ogmoudB1PN6UkgaPRocxsHWeJEoAJ6ukg8nLdpump";
+export const EXECUTE_SWAP = false ;

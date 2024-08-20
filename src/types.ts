@@ -4,11 +4,21 @@ export interface GetTokenAccountsParams {
     cursor?: string;
 }
 
-export interface OpenTrade {
-    walletAddress: string;
-    initialTokenBalance: number;
-    timeOfTrade: number;
-    tokenToSell: number
+export interface IOpenTrade {
+  walletAddress: string;
+  solBalance: number;
+  tokenBalance: number;
+  openTradeType: 'BUY' | 'SELL';
+  tokenAmount: number;
+  solAmount: number;
+  timeStamp: number,
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ExclusiveHolder {
+  walletAddress: string;
+  solBalance: number
 }
 
 export interface SolBalanceObject {

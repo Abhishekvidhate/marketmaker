@@ -1,10 +1,12 @@
-import { GetTokenAccountsParams, OpenTrade } from "../types";
+import { ExclusiveHolder, GetTokenAccountsParams, IOpenTrade } from "../types";
 import fs from "fs";
 import path from "path";
 import "dotenv/config";
 import { SolBalanceObject } from "../types";
 import { AccountInfo, Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import { SOLANA_TOKENPROGRAM_ID } from "../config/consts";
+import ExclusiveHolders from '../models/exclusiveholders'
+import OpenTrades from "../models/opentrades";
 
 const apiKey = process.env.HELIUS_API_KEY;
 
@@ -113,7 +115,6 @@ export async function getExclusiveTokenHolders(tokenMintAddress: string) {
       );
       i += batchSize;
     } while (i < allOwnersData.length);
-    console.log("Time Taken in sec", (new Date().getTime() - now) / 1000);
     fs.writeFileSync(
       "./files/exclusiveHolders.json",
       JSON.stringify(exclusiveHolders, null, 2)
@@ -315,18 +316,22 @@ export async function getMultipleAccountsSolanaBalance(
   return solBalances;
 }
 
-export function readExclusiveTokenHolders(): string[] {
-  const filePath = path.join(__dirname, "..", "./files/exclusiveHolders.json");
+export async function readExclusiveTokenHolders(): Promise<ExclusiveHolder[]> {
+  try {
+    const walletAddressArray = await ExclusiveHolders.find(
+      { openTrade: false },
+      'walletAddress solBalance'
+    ).lean();
 
-  if (fs.existsSync(filePath)) {
-    const data = fs.readFileSync(filePath, "utf8");
-    if (data.trim() === "") {
-      return [];
+    if (!walletAddressArray.length) {
+      console.log("No Exclusive Holder found in the collection!");
     }
-    return JSON.parse(data);
-  }
 
-  return [];
+    return walletAddressArray;
+  } catch (err) {
+    console.error("An error occurred while retrieving wallet addresses:", err);
+    return []; 
+  }
 }
 
 export function readTokenHolders(): string[] {
@@ -343,16 +348,19 @@ export function readTokenHolders(): string[] {
   return [];
 }
 
-export function readOpenTrades(): OpenTrade[] {
-  const filePath = path.join(__dirname, "..", "./files/openTrades.json");
-  if (fs.existsSync(filePath)) {
-    const data = fs.readFileSync(filePath, "utf8");
-    if (data.trim() === "") {
-      return [];
+export  async function readOpenTrades(): Promise<IOpenTrade[]> {
+  try {
+    const openTradesArray = await OpenTrades.find({}).lean();
+
+    if (!openTradesArray.length) {
+      console.log("No Open Trades");
     }
-    return JSON.parse(data);
+
+    return openTradesArray;
+  } catch (err) {
+    console.error("An error occurred while retrieving open trades:", err);
+    return []; 
   }
-  return [];
 }
 
 export async function getTokenDecimals(tokenAddress: string) {
@@ -444,4 +452,76 @@ export async function getParsedProgramAccounts(
     { filters: filters }
   );
   return accounts;
+}
+
+export async function checkExclusiveTokenHolder(tokenMintAddress: string, walletAddress: string)  {
+  const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
+  try {
+      const ownerResponse = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              jsonrpc: "2.0",
+              method: "getTokenAccountsByOwner",
+              id: 1,
+              params: [
+                walletAddress,
+                {
+                  programId: "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+                },
+                {
+                  encoding: "jsonParsed",
+                },
+              ],
+            }),
+          });
+
+          const ownerData = (await ownerResponse.json()) as any;
+
+          console.log("ownerData" , JSON.stringify(ownerData))
+
+          if (ownerData.result) {
+            const ownerTokenAccounts = ownerData.result.value;
+            if (
+              ownerTokenAccounts.length === 1 &&
+              ownerTokenAccounts[0].account.data.parsed.info.mint.toLowerCase() ===
+              tokenMintAddress.toLowerCase()
+            ) {
+                console.log("Exclusive Holder Found")
+                const solBalance:number = await getSolanaBalance(walletAddress) ;
+                const tokenBalance: number = ownerTokenAccounts[0]?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
+                
+                try {
+                  const exclusiveHolder = await ExclusiveHolders.create({
+                    walletAddress: walletAddress,
+                    tokenAddress: tokenMintAddress,
+                    solBalance: solBalance,
+                    tokenBalance: tokenBalance,
+                    openTrade: false,
+                  });
+                
+                  if (exclusiveHolder) {
+                    console.log('Exclusive holder added successfully:', exclusiveHolder);
+                  } else {
+                    console.log('Adding Exclusive holder failed.');
+                  }
+                } catch (error) {
+                  console.error('Error adding Exclusive holder:', error.message || error);
+                }
+
+              return {
+                walletAddress,
+                tokenMintAddress,
+                solBalance,
+                tokenBalance
+              }
+            }
+          }
+   
+
+    } catch (error) {
+    console.error("Error checking for exclusive holder = ", error);
+  }
+
+  return null
 }

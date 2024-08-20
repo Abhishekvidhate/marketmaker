@@ -16,8 +16,9 @@ export const sellToken = async (
   sellAll: boolean,
   addressOfTokenOut: string,
   waitForConfirmation: boolean,
-  amountOfTokenToSell?: number
-): Promise<string> => {
+  wantAmountOfSolIn: boolean,
+  amountOfTokenToSell?: number,
+): Promise<number | string> => {
   if (!sellAll && !amountOfTokenToSell) {
     throw new Error(
       "You need to specify AMOUNT_OF_TOKEN_TO_SELL if SELL_ALL is false"
@@ -40,6 +41,7 @@ export const sellToken = async (
   }
 
   console.log(`Selling ${amountOfTokenToSell}`);
+  console.log('\n')
 
   try {
     const decimals = await getTokenDecimals(addressOfTokenOut);
@@ -56,6 +58,10 @@ export const sellToken = async (
       slippage
     );
 
+    const amountOfSolIn: number =
+    quoteResponse.routePlan[quoteResponse.routePlan.length - 1].swapInfo
+      .outAmount;
+
     const walletPublicKey = wallet.publicKey.toString();
 
     const swapTransaction = await getSwapTransaction(
@@ -67,9 +73,9 @@ export const sellToken = async (
 
     const latestBlockhash = await connection.getLatestBlockhash()
 
-    console.log("Waiting for confirmation... 🕒");
-   
     if(waitForConfirmation){
+      console.log("Waiting for confirmation... 🕒");
+      
       const confirmation = await connection.confirmTransaction(
         {
           signature: txid,
@@ -104,8 +110,11 @@ export const sellToken = async (
     //   }
     // } 
 
-    console.log(`Sell = https://solscan.io/tx/${txid}`);
-    return txid;
+    if (wantAmountOfSolIn) {
+      return amountOfSolIn;
+    } else {
+      return txid;
+    }
   } catch (error: any) {
     throw new Error(error);
   }

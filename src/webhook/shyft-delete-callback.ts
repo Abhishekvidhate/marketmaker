@@ -1,9 +1,11 @@
+import 'dotenv/config'
+
 const myHeader = new Headers();
-myHeader.append("x-api-key", "rj3Zg8rx0PSWTPZt");
+myHeader.append("x-api-key", process.env.SHYFT_API_KEY);
 myHeader.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-    "id": "66b0f7a739be5a366f6e62d8"
+    "id": "66b9dd1cbc6d6966f86e2485"
 });
 
 const requestOptions = {

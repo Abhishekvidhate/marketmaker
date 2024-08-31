@@ -1,6 +1,7 @@
 import 'dotenv/config'
+import { logger } from '../utils/logger';
 
-const createWebhook = async () => {
+export const createWebhook = async (tokenAddresses) => {
     try {
       const response = await fetch(
         `https://api.helius.xyz/v0/webhooks?api-key=${process.env.HELIUS_API_KEY}`,
@@ -10,19 +11,18 @@ const createWebhook = async () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-          "webhookURL": "https://p8gmdtms-4786.inc1.devtunnels.ms/webhook/",
+          "webhookURL": "https://p8gmdtms-3002.inc1.devtunnels.ms/webhook/",
           "transactionTypes": ["Any"],
-          "accountAddresses": ["CTg3ZgYx79zrE1MteDVkmkcGniiFrK1hJ6yiabropump"],
+          "accountAddresses": tokenAddresses,
           "webhookType": "enhanced", // "rawDevnet"
           "txnStatus": "success", // success/failed
        }),
         }
       );
-      const data = await response.json();
-      console.log({ data });
+      const data = await response.json() as any;
+      logger.info('Webhook setup successfully ✅')
+      return data.webhookID
     } catch (e) {
       console.error("error", e);
     }
 };
-
-createWebhook();

@@ -1,7 +1,7 @@
 import mongoose, {Model, Schema} from 'mongoose'; 
-import { IOpenTrade } from '../types';
+import { IOpenTrade } from '../types/types';
 
-const openTradeSchema: Schema<IOpenTrade> = new mongoose.Schema({
+export const openTradeSchema: Schema<IOpenTrade> = new mongoose.Schema({
     walletAddress: {
         type: String,
         required: true
@@ -12,6 +12,10 @@ const openTradeSchema: Schema<IOpenTrade> = new mongoose.Schema({
     },
     tokenBalance: {
         type: Number,
+        required: true
+    },
+    tokenAddress: {
+        type: String,
         required: true
     },
     openTradeType: {
@@ -30,10 +34,18 @@ const openTradeSchema: Schema<IOpenTrade> = new mongoose.Schema({
     timeStamp: {
         type: Number,
         required: true
+    },
+    tokenPrice: {
+        type: Number,
+        required: true
+    },
+    tokenDecimal: {
+        type: Number,
+        required: true
     }
 }, {
     timestamps: true  
-});
+}) ;
 
 const OpenTrades: Model<IOpenTrade> = mongoose.model<IOpenTrade>('opentrades', openTradeSchema);
 

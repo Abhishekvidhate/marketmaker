@@ -9,7 +9,7 @@ import {
   TransactionMessage,
   VersionedTransaction,
 } from "@solana/web3.js";
-import { Data } from "../types";
+import { Data } from "../types/types";
 import {
   ADDITIONAL_FEE,
   BUY_UPPER_AMOUNT,
@@ -18,10 +18,11 @@ import {
 import "dotenv/config";
 import base58 from "bs58";
 import fs from "fs";
-import { buyToken } from "../buyToken";
+import { buyToken } from "../swapper/buyToken";
 import { delay, getSolanaBalance } from "./utils";
-import { sellToken } from "../sellToken";
+import { sellToken } from "../swapper/sellToken";
 
+// Function to distribute SOL among wallets
 export const distributeSol = async (
   mainKp: Keypair,
   distritbutionNum: number
@@ -115,6 +116,7 @@ export const distributeSol = async (
   }
 };
 
+// Function to buy token
 export const buy = async (
   newWallet: Keypair,
   tokenAddress: string,
@@ -152,6 +154,7 @@ export const buy = async (
   }
 };
 
+// Function to sell token
 export const sell = async (wallet: Keypair ,baseMint: PublicKey) => {
   try {
     const data: Data[] = readJson();
@@ -161,7 +164,7 @@ export const sell = async (wallet: Keypair ,baseMint: PublicKey) => {
     }
 
     try {
-      const tokenSellTx = await sellToken(wallet,true,baseMint.toString(),true);
+      const tokenSellTx = await sellToken(wallet,true,baseMint.toString(),false,true);
       const solBalance = await getSolanaBalance(wallet.publicKey.toString());
 
       editJson({
@@ -178,6 +181,7 @@ export const sell = async (wallet: Keypair ,baseMint: PublicKey) => {
   }
 };
 
+// Function to save data to file
 export const saveDataToFile = (
     newData: Data[],
     filePath: string = "data.json"

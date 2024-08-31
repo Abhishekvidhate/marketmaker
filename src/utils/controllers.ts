@@ -1,8 +1,10 @@
 import path from "path";
 import fs from 'fs';
-import { TOKEN_MINT } from "../config/strategicSellingConfig";
 import 'dotenv/config'
+import { logger } from "./logger";
+import { TOKEN_DETAILS } from "../config/profitConfig";
 
+// Function to convert timestamp to readable format
 export const convertTimestampToReadableFormat = (timestamp) => {
   const date = new Date(timestamp);
 
@@ -20,6 +22,7 @@ export const convertTimestampToReadableFormat = (timestamp) => {
   return date.toLocaleString('en-US', options as any);
 };
 
+// Function to parse transaction using Shyft API
 export const parseTransactionShyft = async (txSig) => {
   const url = `https://api.shyft.to/sol/v1/transaction/parsed?network=mainnet-beta&txn_signature=${txSig}`;
   const myHeaders = new Headers();
@@ -36,11 +39,13 @@ export const parseTransactionShyft = async (txSig) => {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.log('Error Parsing transaction Shyft :- ', error);
+    logger.error('Error Parsing transaction Shyft :- ', error);
   }
 }
 
+// Function to parse shyft transaction result
 export const parseTransactionResult = (transaction) => {
+
   if (transaction?.type?.includes('SWAP')) {
     const action = transaction?.actions[0] || [];
     let signature = transaction?.signatures[0]
@@ -49,62 +54,69 @@ export const parseTransactionResult = (transaction) => {
     let symbol: string;
     let feePayer: string = transaction?.fee_payer
 
-    if (action?.info?.tokens_swapped?.in?.token_address == TOKEN_MINT) {
+    const allTokenAddresses = Object.values(TOKEN_DETAILS)
+    let tokenAddress : string ;
+
+    if(allTokenAddresses.includes(action?.info?.tokens_swapped?.in?.token_address) && !allTokenAddresses.includes(action?.info?.tokens_swapped?.out?.token_address)){
+      tokenAddress = action?.info?.tokens_swapped?.in?.token_address
+    }else if(!allTokenAddresses.includes(action?.info?.tokens_swapped?.in?.token_address) && allTokenAddresses.includes(action?.info?.tokens_swapped?.out?.token_address)){
+      tokenAddress = action?.info?.tokens_swapped?.out?.token_address
+    }else{
+      return null
+    }
+
+    if (action?.info?.tokens_swapped?.in?.token_address == tokenAddress) {
       buyOrSell = 'SELL',
-        symbol = (action?.info?.tokens_swapped?.in?.symbol)
+      symbol = (action?.info?.tokens_swapped?.in?.symbol)
       tokenValue = (action?.info?.tokens_swapped?.in?.amount);
     }
 
-    if (action?.info?.tokens_swapped?.out?.token_address == TOKEN_MINT) {
+    if (action?.info?.tokens_swapped?.out?.token_address == tokenAddress) {
       buyOrSell = 'BUY',
-        symbol = (action?.info?.tokens_swapped?.out?.symbol)
+      symbol = (action?.info?.tokens_swapped?.out?.symbol)
       tokenValue = (action?.info?.tokens_swapped?.out?.amount);
     }
 
     if (buyOrSell == 'SELL' || buyOrSell == 'BUY') {
-      console.log(`Transasction = https://solscan.io/tx/${transaction?.signatures}`);
-      console.log(`${buyOrSell} = ${tokenValue} ${symbol}`)
-      console.log("\n")
-
-      return { buyOrSell, tokenValue, signature, symbol, feePayer }
-    } else {
-      console.log(`Transasction = https://solscan.io/tx/${transaction?.signatures}`);
-      console.log("Arb")
-      console.log("\n")
+      return { buyOrSell, tokenValue, signature, symbol, feePayer , tokenAddress}
     }
-  } else {
-    console.log(`Transasction = https://solscan.io/tx/${transaction?.signatures}`);
-    console.log(`Type = ${transaction?.type}`)
-    console.log("\n")
-  }
+
+  } 
 
   return null
 }
 
-export async function parseTransactionHeliusSwap(transaction, tokenSymbol) {
-  const description = transaction?.description;
-  const match = description.match(/(\d+(\.\d+)?)\s+(\w+)\s+for\s+(\d+(\.\d+)?)\s+(\w+)/);
+// Function to parse helius swap transaction
+export async function parseTransactionHeliusSwap(transaction) {
 
+  const allTokenSymbols: string[] = Object.keys(TOKEN_DETAILS);
+  const description = transaction?.description;
+  const match = description.split(' ')
   if (match) {
-    const amountSold = parseFloat(match[1]);
+    const amountSold = parseFloat(match[2]);
     const tokenSold = match[3];
-    const amountBought = parseFloat(match[4]);
+    const amountBought = parseFloat(match[5]);
     const tokenBought = match[6];
 
+    let tokenSymbol : string ;
+
+    if(allTokenSymbols.includes(tokenSold) && !allTokenSymbols.includes(tokenBought)){
+      tokenSymbol = tokenSold
+    }else if(!allTokenSymbols.includes(tokenSold) && allTokenSymbols.includes(tokenBought)){
+      tokenSymbol = tokenBought
+    }else{
+      return null
+    }
+
     if (tokenSold == tokenBought) {
-      console.log(`Transasction = https://solscan.io/tx/${transaction?.signature}`);
-      console.log(`Arb`)
-      console.log("\n")
-      return
+      return null
     }
 
     if (tokenSold != tokenSymbol && tokenBought != tokenSymbol) {
-      console.log(`Transasction = https://solscan.io/tx/${transaction?.signature}`);
-      console.log(`No Buy & Sell`)
-      console.log("\n")
-      return
+      return null
     }
 
+    let tokenAddress = TOKEN_DETAILS[tokenSymbol]
     let buyOrSell;
     let tokenValue;
     let signature = transaction?.signature;
@@ -120,12 +132,9 @@ export async function parseTransactionHeliusSwap(transaction, tokenSymbol) {
       buyOrSell = 'unknown';
     }
 
-    console.log(`Transasction = https://solscan.io/tx/${transaction?.signature}`);
-    console.log(`${buyOrSell} = ${tokenValue} ${tokenSymbol}`)
-    console.log("\n")
-
     return {
       feePayer,
+      tokenAddress,
       tokenSymbol,
       signature,
       tokenValue,
@@ -134,14 +143,14 @@ export async function parseTransactionHeliusSwap(transaction, tokenSymbol) {
   }
   return null;
 }
-
+// Function to parse helius transfer transaction
 export async function parseTransactionHeliusTransfer(transaction) {
   const description = transaction?.description;
   const parts = description.split(' ');
-
   if(parts){
     const fromAccount = parts[0];
     const tokenTransferred = parseFloat(parts[1]);
+    const tokenSymbol = parts[3];
     let toAccount = parts[4];
   
     toAccount = toAccount.endsWith('.') ? toAccount.slice(0, -1) : toAccount;
@@ -149,12 +158,14 @@ export async function parseTransactionHeliusTransfer(transaction) {
     return {
       fromAccount,
       tokenTransferred,
+      tokenSymbol,
       toAccount
     };
   }
   return null;
 }
 
+// Function to get random number in range
 export function getRandomNumberInRange(min, max) {
   if (min > max) {
     throw new Error("Minimum value must be less than or equal to the maximum value.");
@@ -163,6 +174,7 @@ export function getRandomNumberInRange(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// Function to log transaction
 export const logTransaction = (transaction, name) => {
   const logFilePath = path.join(__dirname, `${name}.json`)
   let transactions = [];
@@ -176,6 +188,7 @@ export const logTransaction = (transaction, name) => {
   fs.writeFileSync(logFilePath, JSON.stringify(transactions, null, 2), 'utf8')
 }
 
+// Function to read transaction
 export const readTransaction = (name) => {
 
   const logFilePath = path.join(__dirname, `${name}.json`);

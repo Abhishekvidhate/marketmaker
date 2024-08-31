@@ -26,7 +26,6 @@ SHYFT_API_KEY=your_shyft_api_key
 RPC_URL=your_rpc_url
 WALLET_PRIVATE_KEY=your_wallet_private_key
 WALLET_PUBLIC_KEY=your_wallet_public_key
-SOL_ADDRESS=your_sol_address
 RPC_WEBSOCKET_ENDPOINT=your_rpc_websocket_endpoint
 ```
 
@@ -60,8 +59,6 @@ This script is designed to automate the distribution of SOL to multiple wallets 
 
 ### Usage
 
-## Usage
-
 1. **Clone the repository:**
 
    ```sh
@@ -91,5 +88,68 @@ or
 npm run volume
 ```
 
-
 This will start the bot, executing the configured volume distribution and buy/sell transactions as per the parameters you set.
+
+
+# Profit Script Configuration
+
+Before running the profit scripts, ensure the following configuration parameters are set:
+
+```javascript
+export const MIN_TOKEN_AMOUNT = 1000 
+export const MIN_SOL_BALANCE = 10
+export const MIN_SOL_BALANCE_EXCLUSIVE = 5 
+export const MIN_TOKEN_AMOUNT_EXCLUSIVE = 500 
+export const AUTO_SELL = true
+export const ENABLE_AUTO_SELL_PROFIT = true;  
+export const ENABLE_AUTO_SELL_LOSS = true; 
+export const AUTO_SELL_PROFIT_PERCENTAGE = 10; 
+export const AUTO_SELL_LOSS_PERCENTAGE = 20;    
+export const PRICE_CHECK_INTERVAL = 5000; 
+export const OPEN_TRADE_EXPIRATION_TIME = 3600000 
+export const MIN_SOL_DIFFERENCE_TO_UPDATE = 5; 
+export const MIN_SOL_DIFFERENCE_TO_SELL = 1;
+export const MIN_TOKEN_DIFFERENCE_TO_SELL_USDC = 100; 
+export const TOKEN_DETAILS = {
+    'r/snoofi' : "7M9KJcPNC65ShLDmJmTNhVFcuY95Y1VMeYngKgt67D1t" ,
+    'vibes' :    "Ed1yisBEAo8UXToSswvVFgzyJKpF48HEdq5kvz2zpump" ,
+    'SOLEX' :    "3ceMC8r66WzTFGunkUckoKAbYMXWfzXsgWwmXSYY4x6L"
+}
+```
+
+### Features
+
+- **Automated Profit Management:** Monitors and manages trades for optimal profit.
+- **SOL Balance Tracking:** Keeps track of SOL balance changes for exclusive token holders.
+- **Token Purchase Monitoring:** Monitors token purchases and manages open trades.
+- **Auto-Sell Functionality:** Automatically sells tokens based on profit or loss percentages.
+- **Configurable Parameters:** Allows customization of various thresholds and settings.
+- **Multi-Token Support:** Can handle multiple tokens simultaneously.
+
+## How to Run the Script
+
+The profit script consists of three main components located in the profit folder:
+
+**Server:** Handles incoming transactions and manages the overall process.
+
+**Monitor SOL Balances:** Monitors SOL balance changes for exclusive holders.
+
+**Monitor Token Purchase:** Tracks token purchases and manages open trades.
+
+To run these scripts, use the following commands:
+
+```sh
+npm run profit
+npm run monitor-solbalance
+npm run monitor-opentrade
+```
+
+Or if you're using Yarn:
+
+```sh
+yarn profit
+yarn monitor-solbalance
+yarn monitor-opentrade
+```
+
+

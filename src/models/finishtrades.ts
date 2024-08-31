@@ -1,10 +1,13 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
+import { IOpenTrade } from '../types/types';
+import { openTradeSchema } from './opentrades';
 
 interface IFinishTrade extends Document {
     walletAddress: string;
     initialAmount: number;
     finalAmount: number;
     profitOrLoss: 'Profit' | 'Loss';
+    openTrade: IOpenTrade;
     description: string;
 }
 
@@ -28,7 +31,10 @@ const finishTradeSchema: Schema<IFinishTrade> = new mongoose.Schema({
     },
     description: {
         type: String,
-        enum: ['Profit', 'Loss'],
+        required: true
+    },
+    openTrade: {
+        type: openTradeSchema,
         required: true
     }
 }, {

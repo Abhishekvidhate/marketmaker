@@ -6,8 +6,8 @@ import bs58 from "bs58";
 import { getRandomNumberInRange, parseTransactionResult, parseTransactionShyft } from '../utils/controllers';
 import { BASE_AMOUNT, TOKEN_MINT ,TOKEN_SYMBOL} from '../config/minimizeVolatilityConfig';
 // import { Keypair } from '@solana/web3.js';
-import { sellToken } from '../sellToken';
-import { buyToken } from '../buyToken';
+import { sellToken } from '../swapper/sellToken';
+import { buyToken } from '../swapper/buyToken';
 
 const app = express();
 const port = 4786;

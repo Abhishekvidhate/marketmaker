@@ -4,7 +4,7 @@ import { getRandomNumberInRange, logTransaction, parseTransactionResult, parseTr
 import { BASE_AMOUNT, SMALL_AMOUNT, TIME_INTERVAL, TOKEN_MINT , TOKEN_SYMBOL} from '../config/strategicSellingConfig';
 import { Keypair } from '@solana/web3.js';
 import bs58 from "bs58";
-import { sellToken } from '../sellToken';
+import { sellToken } from '../swapper/sellToken';
 import mongoose from "mongoose"
 
 
@@ -27,37 +27,37 @@ app.post('/webhook', async (req, res) => {
 
     const transactions = req.body;
 
-    transactions.forEach( async (transaction) => {
+    // transactions.forEach( async (transaction) => {
 
-        let parsedTransaction : any; 
-        let result;
+    //     let parsedTransaction : any; 
+    //     let result;
 
-        if(transaction?.type == 'SWAP' && transaction?.description){
-            result =  await parseTransactionHeliusSwap(transaction , TOKEN_SYMBOL); 
-        }else{
-            parsedTransaction = await parseTransactionShyft(transaction?.signature);
-            result = parseTransactionResult(parsedTransaction?.result);
-        }
+    //     if(transaction?.type == 'SWAP' && transaction?.description){
+    //         result =  await parseTransactionHeliusSwap(transaction , TOKEN_SYMBOL); 
+    //     }else{
+    //         parsedTransaction = await parseTransactionShyft(transaction?.signature);
+    //         result = parseTransactionResult(parsedTransaction?.result);
+    //     }
 
-        result?.buyOrSell == 'BUY' ? (totalBuy += result?.tokenValue) : (totalSell += result?.tokenValue) ;
+    //     result?.buyOrSell == 'BUY' ? (totalBuy += result?.tokenValue) : (totalSell += result?.tokenValue) ;
 
-        if(result?.buyOrSell == 'BUY' && result?.tokenValue > BASE_AMOUNT){
-            //sell 50-70% of BUY AMOUNT
-            const randomPercentage = getRandomNumberInRange(50,70);
-            const tokenToSell = (randomPercentage/100)*result.tokenValue ;
-            // await sellToken(primaryWallet,false,TOKEN_MINT,false,tokenToSell)
-        }
+    //     if(result?.buyOrSell == 'BUY' && result?.tokenValue > BASE_AMOUNT){
+    //         //sell 50-70% of BUY AMOUNT
+    //         const randomPercentage = getRandomNumberInRange(50,70);
+    //         const tokenToSell = (randomPercentage/100)*result.tokenValue ;
+    //         // await sellToken(primaryWallet,false,TOKEN_MINT,false,tokenToSell)
+    //     }
 
-        if( (totalBuy-totalSell) > BASE_AMOUNT ){
-            const randomPercentage = getRandomNumberInRange(50,70);
-            const tokenToSell = (randomPercentage/100)*BASE_AMOUNT ;
-            // await sellToken(primaryWallet,false,TOKEN_MINT,false,tokenToSell);
-        }
+    //     if( (totalBuy-totalSell) > BASE_AMOUNT ){
+    //         const randomPercentage = getRandomNumberInRange(50,70);
+    //         const tokenToSell = (randomPercentage/100)*BASE_AMOUNT ;
+    //         // await sellToken(primaryWallet,false,TOKEN_MINT,false,tokenToSell);
+    //     }
 
-        console.log("total buy" , totalBuy);
-        console.log("total sell" , totalSell);
-        console.log("\n")
-    })
+    //     console.log("total buy" , totalBuy);
+    //     console.log("total sell" , totalSell);
+    //     console.log("\n")
+    // })
 
 res.sendStatus(200);
 

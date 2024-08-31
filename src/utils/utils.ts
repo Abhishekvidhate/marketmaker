@@ -1,15 +1,20 @@
-import { ExclusiveHolder, GetTokenAccountsParams, IOpenTrade } from "../types";
+import { ExclusiveHolder, GetTokenAccountsParams, IOpenTrade } from "../types/types";
 import fs from "fs";
 import path from "path";
 import "dotenv/config";
-import { SolBalanceObject } from "../types";
+import { SolBalanceObject } from "../types/types";
 import { AccountInfo, Connection, ParsedAccountData, PublicKey } from "@solana/web3.js";
 import { SOLANA_TOKENPROGRAM_ID } from "../config/consts";
 import ExclusiveHolders from '../models/exclusiveholders'
 import OpenTrades from "../models/opentrades";
+import { logger } from "./logger";
+import NotExclusiveHolders from "../models/notexclusiveholders";
+import { MIN_SOL_BALANCE_EXCLUSIVE, MIN_TOKEN_AMOUNT_EXCLUSIVE  } from "../config/profitConfig";
 
+// Initialize Helius API key
 const apiKey = process.env.HELIUS_API_KEY;
 
+// Function to get token accounts
 export async function getTokenAccounts(tokenMintAddress: string) {
   let allOwners = new Set();
   let cursor;
@@ -59,6 +64,7 @@ export async function getTokenAccounts(tokenMintAddress: string) {
   );
 }
 
+// Function to get exclusive token holders
 export async function getExclusiveTokenHolders(tokenMintAddress: string) {
   const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
   await getTokenAccounts(tokenMintAddress);
@@ -125,6 +131,7 @@ export async function getExclusiveTokenHolders(tokenMintAddress: string) {
   }
 }
 
+// Function to check exclusive token holders
 export async function checkExclusiveTokenHolders(tokenMintAddress: string, tokenAddresses: string[]) {
   const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
   try {
@@ -207,6 +214,7 @@ export async function checkExclusiveTokenHolders(tokenMintAddress: string, token
 
 }
 
+// Function to get SOL balance
 export async function getSolanaBalance(walletAddress: string): Promise<number> {
   const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
 
@@ -225,7 +233,7 @@ export async function getSolanaBalance(walletAddress: string): Promise<number> {
 
       const data = (await response.json()) as any;
       if (data.result) {
-        return data.result.value;
+        return (data.result.value / 1e9) ;
       } else if (data.error && data.error.code === -32429) {
         console.error("Exceeded limit for RPC, retrying in 1 second...");
         await delay(1000);
@@ -242,44 +250,7 @@ export async function getSolanaBalance(walletAddress: string): Promise<number> {
   return 0;
 }
 
-// export async function getTokenBalance(
-//   walletAddress: string,
-//   tokenAddress: string
-// ): Promise<number> {
-//   const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
-
-//   try {
-//     const response = await fetch(url, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         jsonrpc: "2.0",
-//         method: "getTokenAccountsByOwner",
-//         id: 1,
-//         params: [
-//           walletAddress,
-//           {
-//             mint: tokenAddress,
-//           },
-//           {
-//             encoding: "jsonParsed",
-//           },
-//         ],
-//       }),
-//     });
-
-//     const data = (await response.json()) as any;
-//     if (data.result) {
-//       return data?.result?.value[0]?.account?.data?.parsed?.info?.tokenAmount?.uiAmount;
-//     } else {
-//       console.error("Error fetching balance:", data.error);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching balance:", error);
-//   }
-//   return 0;
-// }
-
+// Function to get multiple SOL balances
 export async function getMultipleAccountsSolanaBalance(
   walletAddresses: string[]
 ): Promise<SolBalanceObject> {
@@ -316,16 +287,13 @@ export async function getMultipleAccountsSolanaBalance(
   return solBalances;
 }
 
+// Function to read exclusive token holders
 export async function readExclusiveTokenHolders(): Promise<ExclusiveHolder[]> {
   try {
     const walletAddressArray = await ExclusiveHolders.find(
       { openTrade: false },
-      'walletAddress solBalance'
+      'walletAddress solBalance tokenAddress'
     ).lean();
-
-    if (!walletAddressArray.length) {
-      console.log("No Exclusive Holder found in the collection!");
-    }
 
     return walletAddressArray;
   } catch (err) {
@@ -348,13 +316,10 @@ export function readTokenHolders(): string[] {
   return [];
 }
 
+// Function to read open trades
 export  async function readOpenTrades(): Promise<IOpenTrade[]> {
   try {
     const openTradesArray = await OpenTrades.find({}).lean();
-
-    if (!openTradesArray.length) {
-      console.log("No Open Trades");
-    }
 
     return openTradesArray;
   } catch (err) {
@@ -363,6 +328,7 @@ export  async function readOpenTrades(): Promise<IOpenTrade[]> {
   }
 }
 
+// Function to get token decimals
 export async function getTokenDecimals(tokenAddress: string) {
   const connection = new Connection(process.env.RPC_URL)
   let mint = await connection.getParsedAccountInfo(
@@ -377,6 +343,7 @@ export async function getTokenDecimals(tokenAddress: string) {
   return decimals
 }
 
+// Function to delay
 export const delay = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -425,6 +392,7 @@ export const getBalanceOfToken = async (
   }
 };
 
+// Function to get parsed program accounts
 export async function getParsedProgramAccounts(
   wallet: string,
 ): Promise<
@@ -454,10 +422,18 @@ export async function getParsedProgramAccounts(
   return accounts;
 }
 
+// Function to check exclusive token holder
 export async function checkExclusiveTokenHolder(tokenMintAddress: string, walletAddress: string)  {
-  const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}`;
+
+  const existingNotExclusiveHolder = await NotExclusiveHolders.findOne({ walletAddress });
+  if (existingNotExclusiveHolder) {
+    return null;  
+  }
+
+  const url = `https://mainnet.helius-rpc.com/?api-key=${apiKey}` ;
+  
   try {
-      const ownerResponse = await fetch(url, {
+      const ownerResponse = await fetch( url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -474,54 +450,79 @@ export async function checkExclusiveTokenHolder(tokenMintAddress: string, wallet
                 },
               ],
             }),
-          });
+      });
 
-          const ownerData = (await ownerResponse.json()) as any;
+      const ownerData = (await ownerResponse.json()) as any;
 
-          console.log("ownerData" , JSON.stringify(ownerData))
-
-          if (ownerData.result) {
+            if (ownerData.result) {
             const ownerTokenAccounts = ownerData.result.value;
             if (
               ownerTokenAccounts.length === 1 &&
               ownerTokenAccounts[0].account.data.parsed.info.mint.toLowerCase() ===
               tokenMintAddress.toLowerCase()
             ) {
-                console.log("Exclusive Holder Found")
+                logger.info("Exclusive Holder Found")
                 const solBalance:number = await getSolanaBalance(walletAddress) ;
                 const tokenBalance: number = ownerTokenAccounts[0]?.account?.data?.parsed?.info?.tokenAmount?.uiAmount
+                const minTokenBalance = await calculateTokenAmountForUSDC(tokenMintAddress,MIN_TOKEN_AMOUNT_EXCLUSIVE)
                 
-                try {
-                  const exclusiveHolder = await ExclusiveHolders.create({
-                    walletAddress: walletAddress,
-                    tokenAddress: tokenMintAddress,
-                    solBalance: solBalance,
-                    tokenBalance: tokenBalance,
-                    openTrade: false,
-                  });
-                
-                  if (exclusiveHolder) {
-                    console.log('Exclusive holder added successfully:', exclusiveHolder);
-                  } else {
-                    console.log('Adding Exclusive holder failed.');
-                  }
-                } catch (error) {
-                  console.error('Error adding Exclusive holder:', error.message || error);
+                if(solBalance > MIN_SOL_BALANCE_EXCLUSIVE && tokenBalance > minTokenBalance){
+                  
+                  await ExclusiveHolders.create({
+                     walletAddress: walletAddress,
+                     tokenAddress: tokenMintAddress,
+                     solBalance: solBalance,
+                     tokenBalance: tokenBalance,
+                     openTrade: false,
+                   }).then( () => {
+                     logger.info('Exclusive holder added successfully')
+                   }).catch( (err) => {
+                     logger.error('Error adding Exclusive holder:',{ message: err.message, stack: err.stack });
+                   })
+       
+                return {
+                  walletAddress,
+                  tokenMintAddress,
+                  solBalance,
+                  tokenBalance
                 }
-
-              return {
-                walletAddress,
-                tokenMintAddress,
-                solBalance,
-                tokenBalance
+              }else{
+                
               }
+
+            }else{
+
+              await NotExclusiveHolders.create({
+                walletAddress: walletAddress,
+                tokenAddress: tokenMintAddress,
+              }).catch( (err) => {
+                logger.error('Error adding Not Exclusive holder:',{ message: err.message, stack: err.stack });
+              })
             }
           }
    
 
     } catch (error) {
-    console.error("Error checking for exclusive holder = ", error);
-  }
+      logger.error("Error checking for exclusive holder = ", { message: error , stack: error.stack });
+    }
 
   return null
+}
+
+// Function to calculate token amount for USDC
+export async function calculateTokenAmountForUSDC(tokenAddress: string, amountInUSDC: number): Promise<number> {
+  const response = await fetch(`https://price.jup.ag/v6/price?ids=${tokenAddress}`);
+  const data = await response.json();
+  
+  const tokenPrice = data?.data[tokenAddress]?.price;
+  const tokenAmount = Math.floor((1 / tokenPrice) * amountInUSDC);
+  
+  return tokenAmount;
+}
+
+// Function to get token price
+export async function getTokenPrice(tokenAddress: string): Promise<number> {
+  const response = await fetch(`https://price.jup.ag/v6/price?ids=${tokenAddress}`);
+  const data = await response.json();
+  return data?.data[tokenAddress]?.price || 0;
 }
